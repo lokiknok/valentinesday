@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Beyond Valentine's Day</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+        body {
+            height: 100vh;
+            background: #020205;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* --- STAGE 1: THE CARD --- */
+        #valentine-stage {
+            position: relative;
+            z-index: 10;
+            transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 50px rgba(255, 77, 109, 0.2);
+        }
+
+        .pink-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, #ff758c 0%, transparent 70%);
+            opacity: 0.3;
+            z-index: -1;
+            transition: 2s;
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 20px; color: #ff758c; }
+
+        button {
+            padding: 15px 40px;
+            border: none;
+            background: linear-gradient(45deg, #ff4d6d, #ff758c);
+            color: white;
+            border-radius: 50px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        button:hover { 
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.5);
+        }
+
+        /* --- STAGE 2: THE COSMOS --- */
+        #universe-stage {
+            position: fixed;
+            inset: 0;
+            opacity: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 3s ease;
+        }
+
+        canvas { position: absolute; inset: 0; z-index: 1; }
+
+        .quote-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .main-quote {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to bottom, #fff 30%, #ff758c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255,117,140,0.5));
+            letter-spacing: -1px;
+        }
+
+        .sub-quote {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nebula {
+            position: absolute;
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(255, 77, 109, 0.1) 0%, transparent 60%);
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse 10s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.4; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pink-glow" id="bg-overlay"></div>
+
+    <div id="valentine-stage">
+        <h1>Happy Valentine’s Day ❤️</h1>
+        <p style="margin-bottom: 25px; color: #ccc;">A small gift for someone who deserves the stars.</p>
+        <button onclick="revealUniverse()">Open the Universe</button>
+    </div>
+
+    <div id="universe-stage">
+        <div class="nebula"></div>
+        <canvas id="starfield"></canvas>
+        <div class="quote-container">
+            <h2 class="main-quote">"I hate Valentine's Day..."</h2>
+            <h3 class="sub-quote">Because I love you every single day.</h3>
+        </div>
+    </div>
+
+    <script>
+        function revealUniverse() {
+            const vStage = document.getElementById('valentine-stage');
+            const uStage = document.getElementById('universe-stage');
+            const bg = document.getElementById('bg-overlay');
+
+            vStage.style.opacity = '0';
+            vStage.style.transform = 'scale(1.5) rotate(5deg)';
+            bg.style.opacity = '0';
+
+            setTimeout(() => {
+                vStage.style.display = 'none';
+                uStage.style.display = 'flex';
+                uStage.offsetHeight;
+                uStage.style.opacity = '1';
+                initCosmos();
+            }, 1500);
+        }
+
+        function initCosmos() {
+            const canvas = document.getElementById('starfield');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const stars = [];
+            const heartPoints = [];
+            
+            // Create a heart mathematical shape
+            for (let i = 0; i < 200; i++) {
+                let t = Math.random() * Math.PI * 2;
+                // Parametric heart formula
+                let x = 16 * Math.pow(Math.sin(t), 3);
+                let y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                heartPoints.push({ x: x * 15, y: y * 15 });
+            }
+
+            for(let i=0; i<350; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    targetX: (i < heartPoints.length) ? (canvas.width/2 + heartPoints[i].x) : null,
+                    targetY: (i < heartPoints.length) ? (canvas.height/2 + heartPoints[i].y) : null,
+                    size: Math.random() * 2,
+                    speed: 0.02 + Math.random() * 0.05,
+                    alpha: Math.random(),
+                    forming: false
+                });
+            }
+
+            // Start forming the heart after 2 seconds
+            setTimeout(() => {
+                stars.forEach(s => s.forming = true);
+            }, 2000);
+
+            function draw() {
+                ctx.fillStyle = '#020205';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                stars.forEach(s => {
+                    if (s.forming && s.targetX) {
+                        s.x += (s.targetX - s.x) * 0.03;
+                        s.y += (s.targetY - s.y) * 0.03;
+                        ctx.fillStyle = `rgba(255, 117, 140, ${s.alpha})`;
+                    } else {
+                        s.y -= s.speed * 10;
+                        if(s.y < 0) s.y = canvas.height;
+                        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+                    }
+
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+    </script>
+</body>
+</html>

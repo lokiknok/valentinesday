@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Valentine’s Day ❤️</title>
+  <link rel="stylesheet" href="style.css">
+   </head>
+<body>
+
+    <div class="card">
+        <h1>Happy Valentine’s Day ❤️</h1>
+        <p>
+            You’re the reason smiles exist, songs make sense,  
+            and why this website was made instead of sleeping.
+        </p>
+       <a href="5.html" class="btn">Click for Love ❤️</a>
+
+    </div>
+
+    <!-- Floating hearts -->
+    <script>
+        for (let i = 0; i < 25; i++) {
+            let heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+            heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+            document.body.appendChild(heart);
+        }
+    </script>
+
+</body>
+</html>

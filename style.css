@@ -1,0 +1,107 @@
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        /* A deeper, more romantic gradient */
+        background: linear-gradient(45deg, #ff4e50, #f9d423, #ff4e50);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* Glassmorphism Card Effect */
+    .card {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 50px;
+        border-radius: 30px;
+        text-align: center;
+        max-width: 450px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        animation: pop 1s ease, heartbeat 2s ease-in-out infinite;
+        z-index: 10;
+    }
+
+    h1 {
+        color: #ffffff;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        margin-bottom: 15px;
+    }
+
+    p {
+        color: #fff;
+        font-size: 18px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        font-weight: 300;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    /* Floating Glowing Button */
+    button {
+        padding: 15px 35px;
+        border: none;
+        background: #ffffff;
+        color: #ff4d6d;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    button:hover {
+        transform: translateY(-3px) scale(1.05);
+        background: #ff4d6d;
+        color: white;
+        box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+    }
+
+    /* Keyframes for the background movement */
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Heartbeat animation for the card */
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+        0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        90% { opacity: 0.8; }
+        100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes pop {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .heart {
+        position: absolute;
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+        z-index: 1;
+        pointer-events: none;
+    }
+</style>
